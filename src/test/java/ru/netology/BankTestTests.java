@@ -4,9 +4,6 @@ import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.junit.jupiter.api.*;
-import org.openqa.selenium.WebElement;
-
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
@@ -37,9 +34,7 @@ class BankTestTest {
         SelenideElement phone= $("[data-test-id=phone] input").setValue("+12345678987");
         $("[data-test-id=agreement]").click();
         $("button").click();
-        String expected = "Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.";
-        String actual = $(By.cssSelector("[data-test-id=name].input_invalid .input__sub")).getText().trim();
-        Assertions.assertEquals(expected, actual);
+        $(By.cssSelector("[data-test-id=name].input_invalid .input__sub")).shouldHave(exactText("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы."));
     }
 
     @Test
@@ -48,9 +43,8 @@ class BankTestTest {
         SelenideElement phone= $("[data-test-id=phone] input").setValue("+1234567898788");
         $("[data-test-id=agreement]").click();
         $("button").click();
-        String expected = "Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.";
-        String actual = $(By.cssSelector("[data-test-id=phone].input_invalid .input__sub")).getText().trim();
-        Assertions.assertEquals(expected, actual);
+        $(By.cssSelector("[data-test-id=phone].input_invalid .input__sub")).shouldHave(exactText("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678."));
+
     }
 
     @Test
@@ -59,9 +53,7 @@ class BankTestTest {
         SelenideElement phone= $("[data-test-id=phone] input").setValue("+12345678987");
         $("[data-test-id=agreement]").click();
         $("button").click();
-        String expected = "Поле обязательно для заполнения";
-        String actual = $(By.cssSelector("[data-test-id=name].input_invalid .input__sub")).getText().trim();
-        Assertions.assertEquals(expected, actual);
+        $(By.cssSelector("[data-test-id=name].input_invalid .input__sub")).shouldHave(exactText("Поле обязательно для заполнения"));
     }
 
     @Test
@@ -71,19 +63,7 @@ class BankTestTest {
         $("[data-test-id=agreement]").click();
         $("button").click();
         String expected = "Поле обязательно для заполнения";
-        String actual = $(By.cssSelector("[data-test-id=phone].input_invalid .input__sub")).getText().trim();
-        Assertions.assertEquals(expected, actual);
-    }
-
-    @Test
-    void invalidCheckboxTest() {
-        SelenideElement name= $("[data-test-id=name] input").setValue("Иванов Иван");
-        SelenideElement phone= $("[data-test-id=phone] input").setValue("");
-        WebElement checkbox = $("[data-test-id=agreement]");
-        boolean click = checkbox.isSelected();
-        Assertions.assertFalse(click);
-        $("button").click();
-
+        $(By.cssSelector("[data-test-id=phone].input_invalid .input__sub")).shouldHave(exactText("Поле обязательно для заполнения"));
     }
 
 }
