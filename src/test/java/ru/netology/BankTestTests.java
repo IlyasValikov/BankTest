@@ -1,13 +1,19 @@
 package ru.netology;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import static com.codeborne.selenide.Condition.exactText;
+
+import java.nio.channels.Selector;
+import java.time.Duration;
+import java.util.function.BooleanSupplier;
+
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class BankTestTest {
@@ -62,8 +68,17 @@ class BankTestTest {
         SelenideElement phone= $("[data-test-id=phone] input").setValue("");
         $("[data-test-id=agreement]").click();
         $("button").click();
-        String expected = "Поле обязательно для заполнения";
         $(By.cssSelector("[data-test-id=phone].input_invalid .input__sub")).shouldHave(exactText("Поле обязательно для заполнения"));
+    }
+
+    @Test
+    void shouldTestCheckbox() {
+        SelenideElement name= $("[data-test-id=name] input").setValue("Иванов Иван");
+        SelenideElement phone= $("[data-test-id=phone] input").setValue("+12345678987");
+        $("[data-test-id=agreement]").click();
+        $("[data-test-id=agreement]").shouldBe(visible, Duration.ofSeconds(10));
+        $("button").click();
+        $("[data-test-id=order-success]").shouldHave(exactText("  Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время."));
     }
 
 }
