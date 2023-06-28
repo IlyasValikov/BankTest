@@ -75,10 +75,9 @@ class BankTestTest {
     void shouldTestCheckbox() {
         SelenideElement name= $("[data-test-id=name] input").setValue("Иванов Иван");
         SelenideElement phone= $("[data-test-id=phone] input").setValue("+12345678987");
-        $("[data-test-id=agreement]").click();
-        $("[data-test-id=agreement]").shouldBe(visible, Duration.ofSeconds(10));
         $("button").click();
-        $("[data-test-id=order-success]").shouldHave(exactText("  Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время."));
+        $("[data-test-id=agreement].input_invalid .checkbox__box").shouldBe(visible, Duration.ofSeconds(10));
+
     }
 
 }
